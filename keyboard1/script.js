@@ -1,5 +1,12 @@
 import { keyCodes } from "./constants/constants.js";
 
+if (!localStorage.language) {
+    localStorage.language = "en";
+}
+let langG = localStorage.language;
+localStorage.caps = JSON.stringify(false); // начало работы в нижнем регистре
+localStorage.shiftRepeat = JSON.stringify(false); // начало работы в нижнем регистре
+
 const page = document.querySelector("body");
 page.classList.add("page");
 
@@ -7,6 +14,7 @@ const textSection = document.createElement("section");
 page.append(textSection);
 
 const textArea = document.createElement("textarea");
+textArea.setAttribute("wrap", "hard");
 textArea.classList.add("text__textarea");
 textSection.append(textArea);
 
@@ -17,9 +25,6 @@ page.append(keyboard);
 const keyboardPlate = document.createElement("div");
 keyboardPlate.classList.add("keyboard__plate");
 keyboard.append(keyboardPlate);
-
-// const countButtonsInLines = [15, 14, 14, 13, 13, 9];
-const langG = "ru";
 
 keyCodes.forEach((item, index) => {
     const keyboardLine = document.createElement("div");
@@ -48,6 +53,7 @@ keyCodes.forEach((item, index) => {
         keyboardButton.classList.add("keyboard__button");
         keyboardButton.setAttribute("data-code", key["code"]);
         if (key.lang) {
+            keyboardButton.setAttribute("data-lang", true);
             if (keyText[langG].length != 1) {
                 keyText[langG].forEach((item) => {
                     const div = document.createElement("div");
@@ -74,6 +80,44 @@ keyCodes.forEach((item, index) => {
 });
 
 const buttons = Array.from(document.querySelectorAll(".keyboard__button"));
+const buttonsLang = buttons.filter((it) => it.dataset.lang);
+
+const esc = buttons.find((it) => it.dataset.code === "Escape");
+
+esc.addEventListener("click", () => {
+    localStorage.language = localStorage.language === "en" ? "ru" : "en";
+    langG = localStorage.language;
+    buttonsLang.forEach((button) => {
+        const lineNumber = button.parentNode.className.match(/\d/)[0];
+        const key = keyCodes[lineNumber].find(
+            (it) => button.dataset.code === it.code
+        );
+        const keyTextLang = key["textContent"][langG];
+        if (keyTextLang.length != 1 && button.children.length) {
+            Array.from(button.children).forEach((it, ind) => {
+                it.textContent = keyTextLang[ind];
+            });
+        } else if (keyTextLang.length != 1) {
+            button.textContent = "";
+            button.removeAttribute("data-letter");
+            button.setAttribute("data-symbol", true);
+            keyTextLang.forEach((item) => {
+                const div = document.createElement("div");
+                div.textContent = item;
+                button.append(div);
+            });
+        } else if (button.children.length) {
+            button.removeAttribute("data-symbol");
+            button.setAttribute("data-letter", true);
+            Array.from(button.children).forEach((child) => {
+                child.remove();
+            });
+            button.textContent = keyTextLang[0].toUpperCase();
+        } else {
+            button.textContent = keyTextLang[0].toUpperCase();
+        }
+    });
+});
 
 document.addEventListener("keydown", (evt) => {
     buttons
@@ -87,66 +131,135 @@ document.addEventListener("keyup", (evt) => {
         .classList.remove("keyboard__button_active");
 });
 
-// const w = document.querySelector("[data-code='KeyW']");
-
-// w.addEventListener("click", e => {
-//     const lineNumber = e.target.parentNode.classList.value.match(/\d/)[0];
-//     const key = keyCodes[lineNumber].find(it => e.target.dataset.code === it.code);
-//     console.log("a".toUpperCase());
-//     if (key.symbol) {
-
-//     } {
-
-//     }
-// /*         textArea.value += "W";
-//         textArea.focus(); */
-// });
-
-const letters = Array.from(buttons).filter((it) =>
-    it.hasAttribute("data-letter")
-);
-
-const symbols = Array.from(buttons).filter((it) =>
-    it.hasAttribute("data-symbol")
-);
-
 keyboard.addEventListener("click", (evt) => {
     if (!evt.target.closest(".keyboard__button")) {
         return;
     }
     const currentButton = evt.target.closest(".keyboard__button");
+    let cursorPosition = textArea.selectionStart;
+    const writeTextarea = (text, cursorTranslate = 1) => {
+        textArea.selectionStart = textArea.selectionEnd =
+            cursorPosition + cursorTranslate;
+        return (
+            textArea.value.slice(0, cursorPosition) +
+            text +
+            textArea.value.slice(cursorPosition)
+        );
+    };
+
     if (currentButton.hasAttribute("data-letter")) {
         if (evt.shiftKey) {
-            textArea.value += evt.target.textContent;
+            textArea.value = JSON.parse(localStorage.caps)
+                ? writeTextarea(evt.target.textContent.toLowerCase())
+                : writeTextarea(evt.target.textContent);
         } else {
-            textArea.value += evt.target.textContent.toLowerCase();
+            textArea.value =
+                JSON.parse(localStorage.caps) ||
+                JSON.parse(localStorage.shiftRepeat)
+                    ? writeTextarea(evt.target.textContent)
+                    : writeTextarea(evt.target.textContent.toLowerCase());
         }
     } else if (currentButton.hasAttribute("data-symbol")) {
         if (evt.shiftKey) {
-            textArea.value += evt.target.childNodes[0].textContent;
+            textArea.value = writeTextarea(
+                currentButton.childNodes[0].textContent
+            );
         } else {
-            textArea.value += evt.target.childNodes[1].textContent;
+            textArea.value = JSON.parse(localStorage.shiftRepeat)
+                ? writeTextarea(currentButton.childNodes[0].textContent)
+                : writeTextarea(currentButton.childNodes[1].textContent);
         }
     }
-
+    switch (currentButton.dataset.code) {
+        case "Tab":
+            textArea.value = writeTextarea("   ", 3);
+            break;
+        case "Backspace":
+            textArea.value =
+                textArea.value.slice(0, cursorPosition - 1) +
+                textArea.value.slice(cursorPosition);
+            textArea.selectionStart = textArea.selectionEnd =
+                cursorPosition - 1;
+            break;
+        case "Delete":
+            textArea.value =
+                textArea.value.slice(0, cursorPosition) +
+                textArea.value.slice(cursorPosition + 1);
+            textArea.selectionStart = textArea.selectionEnd = cursorPosition;
+            break;
+        case "Enter":
+            textArea.value = writeTextarea("\n");
+            break;
+        case "Space":
+            textArea.value = writeTextarea(" ");
+            break;
+        case "ArrowLeft":
+            textArea.selectionStart = textArea.selectionEnd =
+                cursorPosition - 1;
+            break;
+        case "ArrowUp":
+            textArea.selectionStart = textArea.selectionEnd =
+                cursorPosition - 3 < 0 ? 0 : cursorPosition - 3;
+            break;
+        case "ArrowRight":
+            textArea.selectionStart = textArea.selectionEnd =
+                cursorPosition + 1;
+            break;
+        case "ArrowDown":
+            textArea.selectionStart = textArea.selectionEnd =
+                cursorPosition + 3;
+            break;
+        case "CapsLock":
+            if (currentButton.style.color) {
+                localStorage.caps = JSON.stringify(false);
+                currentButton.style.color = "";
+            } else {
+                localStorage.caps = JSON.stringify(true);
+                currentButton.style.color = "red";
+            }
+            break;
+        case "AltLeft":
+        case "AltRight":
+            if (evt.shiftKey) {
+                localStorage.language = "ru";
+                buttons;
+            } else {
+                /*                 localStorage.caps = JSON.stringify(true);
+                currentButton.style.color = "red"; */
+            }
+            break;
+    }
     textArea.focus();
 });
 
-// letters.forEach((letter) => letter.addEventListener("click", (e) => {
-//     if (e.shiftKey) {
-//         textArea.value += e.target.textContent;
-//     } else {
-//         textArea.value += e.target.textContent.toLowerCase();
-//     }
-//     textArea.focus();
-// }));
+keyboard.addEventListener("mousedown", (evt) => {
+    if (!evt.target.closest(".keyboard__button")) {
+        return;
+    }
+    const currentButton = evt.target.closest(".keyboard__button");
+    switch (currentButton.dataset.code) {
+        case "ShiftLeft":
+        case "ShiftRight":
+            const shiftLogic = (e) => {
+                if (
+                    e.target.closest(".keyboard__button") &&
+                    e.target != currentButton
+                ) {
+                    localStorage.shiftRepeat = JSON.stringify(true);
+                    currentButton.classList.add("keyboard__button_active");
+                    currentButton.style.color = "red";
+                } else {
+                    localStorage.shiftRepeat = JSON.stringify(false);
+                    currentButton.classList.remove("keyboard__button_active");
+                    currentButton.style.color = "";
+                }
+                keyboard.removeEventListener("mouseup", shiftLogic);
+            };
+            keyboard.addEventListener("mouseup", shiftLogic);
+            break;
+    }
+});
 
-// symbols.forEach((symbol) => symbol.addEventListener("click", (e) => {
-//     // console.log(e.currentTarget.childNodes[0].textContent);
-//     if (e.shiftKey) {
-//         textArea.value += e.target.childNodes[0].textContent;
-//     } else {
-//         textArea.value += e.target.childNodes[1].textContent;
-//     }
-//     textArea.focus();
-// }));
+/* textArea.addEventListener("input", () => {
+    console.log(document.inputmode);
+}); */

@@ -25,6 +25,10 @@
     padding: 10px;
 }
 
+.text__textarea:focus {
+    outline: none;
+}
+
 .keyboard {
     width: 1200px;
     height: 500px;
