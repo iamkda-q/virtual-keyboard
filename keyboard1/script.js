@@ -299,15 +299,14 @@ keyboard.addEventListener("mousedown", evt => {
     кроме shift - режим введения заглавных букв и доп. символов */
     case "ShiftLeft":
     case "ShiftRight":
-
         keyboard.addEventListener("mouseup", shiftLogic);
         break;
-        /* Зажимаешь Alt, перетаскиваешь курсор на Сtrl - переключение языка */
+    /* Зажимаешь Alt, перетаскиваешь курсор на Сtrl - переключение языка */
     case "AltLeft":
     case "AltRight":
         keyboard.addEventListener("mouseup", altLogic);
         break;
-        /* Зажимаешь Сtrl, перетаскиваешь курсор на Alt - переключение языка */
+    /* Зажимаешь Сtrl, перетаскиваешь курсор на Alt - переключение языка */
     case "ControlLeft":
     case "ControlRight":
         keyboard.addEventListener("mouseup", ctrlLogic);
