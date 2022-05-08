@@ -137,14 +137,16 @@ keyboard.addEventListener("click", (evt) => {
     }
     const currentButton = evt.target.closest(".keyboard__button");
     let cursorPosition = textArea.selectionStart;
-    const writeTextarea = (text, cursorTranslate = 1) => {
-        textArea.selectionStart = textArea.selectionEnd =
-            cursorPosition + cursorTranslate;
+    const writeTextarea = (text) => {
         return (
             textArea.value.slice(0, cursorPosition) +
             text +
             textArea.value.slice(cursorPosition)
         );
+    };
+    const translateCursor = (cursorTranslation = 1) => {
+        textArea.selectionStart = textArea.selectionEnd =
+            cursorPosition + cursorTranslation < 0 ? 0 : cursorPosition + cursorTranslation;
     };
 
     if (currentButton.hasAttribute("data-letter")) {
@@ -159,6 +161,7 @@ keyboard.addEventListener("click", (evt) => {
                     ? writeTextarea(evt.target.textContent)
                     : writeTextarea(evt.target.textContent.toLowerCase());
         }
+        translateCursor();
     } else if (currentButton.hasAttribute("data-symbol")) {
         if (evt.shiftKey) {
             textArea.value = writeTextarea(
@@ -169,45 +172,44 @@ keyboard.addEventListener("click", (evt) => {
                 ? writeTextarea(currentButton.childNodes[0].textContent)
                 : writeTextarea(currentButton.childNodes[1].textContent);
         }
+        translateCursor();
     }
     switch (currentButton.dataset.code) {
         case "Tab":
-            textArea.value = writeTextarea("   ", 3);
+            textArea.value = writeTextarea("   ");
+            translateCursor(3);
             break;
         case "Backspace":
             textArea.value =
                 textArea.value.slice(0, cursorPosition - 1) +
                 textArea.value.slice(cursorPosition);
-            textArea.selectionStart = textArea.selectionEnd =
-                cursorPosition - 1;
+                translateCursor(-1);
             break;
         case "Delete":
             textArea.value =
                 textArea.value.slice(0, cursorPosition) +
                 textArea.value.slice(cursorPosition + 1);
-            textArea.selectionStart = textArea.selectionEnd = cursorPosition;
+                translateCursor(0);
             break;
         case "Enter":
             textArea.value = writeTextarea("\n");
+            translateCursor();
             break;
         case "Space":
             textArea.value = writeTextarea(" ");
+            translateCursor();
             break;
         case "ArrowLeft":
-            textArea.selectionStart = textArea.selectionEnd =
-                cursorPosition - 1;
+            translateCursor(-1);
             break;
         case "ArrowUp":
-            textArea.selectionStart = textArea.selectionEnd =
-                cursorPosition - 3 < 0 ? 0 : cursorPosition - 3;
+            translateCursor(-3);
             break;
         case "ArrowRight":
-            textArea.selectionStart = textArea.selectionEnd =
-                cursorPosition + 1;
+            translateCursor();
             break;
         case "ArrowDown":
-            textArea.selectionStart = textArea.selectionEnd =
-                cursorPosition + 3;
+            translateCursor(3);
             break;
         case "CapsLock":
             if (currentButton.style.color) {
