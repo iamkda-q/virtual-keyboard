@@ -82,9 +82,7 @@ keyCodes.forEach((item, index) => {
 const buttons = Array.from(document.querySelectorAll(".keyboard__button"));
 const buttonsLang = buttons.filter((it) => it.dataset.lang);
 
-const esc = buttons.find((it) => it.dataset.code === "Escape");
-
-esc.addEventListener("click", () => {
+function changeLaguage() {
     localStorage.language = localStorage.language === "en" ? "ru" : "en";
     langG = localStorage.language;
     buttonsLang.forEach((button) => {
@@ -117,7 +115,7 @@ esc.addEventListener("click", () => {
             button.textContent = keyTextLang[0].toUpperCase();
         }
     });
-});
+}
 
 document.addEventListener("keydown", (evt) => {
     buttons
@@ -146,7 +144,9 @@ keyboard.addEventListener("click", (evt) => {
     };
     const translateCursor = (cursorTranslation = 1) => {
         textArea.selectionStart = textArea.selectionEnd =
-            cursorPosition + cursorTranslation < 0 ? 0 : cursorPosition + cursorTranslation;
+            cursorPosition + cursorTranslation < 0
+                ? 0
+                : cursorPosition + cursorTranslation;
     };
 
     if (currentButton.hasAttribute("data-letter")) {
@@ -176,26 +176,28 @@ keyboard.addEventListener("click", (evt) => {
     }
     switch (currentButton.dataset.code) {
         case "Tab":
-            textArea.value = writeTextarea("   ");
-            translateCursor(3);
+            console.log(cursorPosition);
+            textArea.value = writeTextarea("\t");
+            translateCursor();
             break;
         case "Backspace":
             textArea.value =
                 textArea.value.slice(0, cursorPosition - 1) +
                 textArea.value.slice(cursorPosition);
-                translateCursor(-1);
+            translateCursor(-1);
             break;
         case "Delete":
             textArea.value =
                 textArea.value.slice(0, cursorPosition) +
                 textArea.value.slice(cursorPosition + 1);
-                translateCursor(0);
+            translateCursor(0);
             break;
         case "Enter":
             textArea.value = writeTextarea("\n");
             translateCursor();
             break;
         case "Space":
+            console.log(cursorPosition);
             textArea.value = writeTextarea(" ");
             translateCursor();
             break;
@@ -222,12 +224,14 @@ keyboard.addEventListener("click", (evt) => {
             break;
         case "AltLeft":
         case "AltRight":
-            if (evt.shiftKey) {
-                localStorage.language = "ru";
-                buttons;
-            } else {
-                /*                 localStorage.caps = JSON.stringify(true);
-                currentButton.style.color = "red"; */
+            if (evt.ctrlKey) {
+                changeLaguage();
+            }
+            break;
+        case "ControlLeft":
+        case "ControlRight":
+            if (evt.altKey) {
+                changeLaguage();
             }
             break;
     }
@@ -259,9 +263,34 @@ keyboard.addEventListener("mousedown", (evt) => {
             };
             keyboard.addEventListener("mouseup", shiftLogic);
             break;
+        case "AltLeft":
+        case "AltRight":
+            const altLogic = (e) => {
+                if (
+                    e.target.dataset.code === "ControlLeft" ||
+                    e.target.dataset.code === "ControlRight"
+                ) {
+                    changeLaguage();
+                }
+                keyboard.removeEventListener("mouseup", altLogic);
+            };
+            keyboard.addEventListener("mouseup", altLogic);
+            break;
+        case "ControlLeft":
+        case "ControlRight":
+            const ctrlLogic = (e) => {
+                if (
+                    e.target.dataset.code === "AltLeft" ||
+                    e.target.dataset.code === "AltRight"
+                ) {
+                    changeLaguage();
+                }
+                keyboard.removeEventListener("mouseup", ctrlLogic);
+            };
+            keyboard.addEventListener("mouseup", ctrlLogic);
+            break;
     }
 });
 
-/* textArea.addEventListener("input", () => {
-    console.log(document.inputmode);
-}); */
+
+/* Работа с кнопками физической клавиатуры */
