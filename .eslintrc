@@ -1,0 +1,11 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "indent": ["error", 4],
+        "quotes": ["error", "double"],
+        "linebreak-style": ["error", "windows"],
+        "arrow-parens": ["error", "as-needed"],
+        "no-param-reassign": ["error", { "props": false }],
+        "default-case": "off"
+    }
+}

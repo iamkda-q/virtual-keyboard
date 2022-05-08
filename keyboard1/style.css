@@ -1,0 +1,138 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.page {
+    width: 100%;
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 0 50px;
+}
+
+.text__textarea {
+    max-width: 960px;
+    width: calc(9600vw/128);
+    height: 320px;
+    font-size: 32px;
+    padding: 10px;
+}
+
+.text__textarea:focus {
+    outline: none;
+}
+
+.text__message {
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto;
+}
+
+.keyboard {
+    max-width: 960px;
+    width: calc(9600%/128);
+    height: calc(4800%/128);
+    padding: 8px;
+    border-radius: 20px;
+    box-shadow: 0 3px 3px #3f0921;
+    background: linear-gradient(
+            270deg,
+            rgb(71, 50, 70) 0%,
+            rgb(119, 5, 180) 100%
+        ),
+        radial-gradient(rgba(57, 10, 10, 1) 0%, rgba(11, 5, 61, 1) 100%);
+}
+
+.keyboard__plate {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 0.6fr repeat(5, 1fr);
+    row-gap: 7px;
+}
+
+.keyboard__line {
+    width: 100%;
+    height: calc(20%-32px);
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: 1;
+    column-gap: 8px;
+
+}
+
+.keyboard__line_1 {
+    grid-template-columns: 0.65fr repeat(12, 1fr) 1.35fr;
+}
+
+.keyboard__line_2 {
+    grid-template-columns: 1.35fr repeat(12, 1fr) 0.65fr;
+}
+
+.keyboard__line_3 {
+    grid-template-columns: 1.5fr repeat(11, 1fr) 1.5fr;
+}
+
+.keyboard__line_4 {
+    grid-template-columns: repeat(12, 1fr) 2fr;
+}
+
+.keyboard__line_5 {
+    grid-template-columns: repeat(2, 1fr) 2fr 6fr repeat(5, 1fr);
+}
+
+.keyboard__button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border: 0.5px solid black;
+    color: antiquewhite;
+    border-radius: 10px;
+    cursor: pointer;
+    background-image: linear-gradient(90deg, #312323 0%, #332a2a 100%);
+    box-shadow: 3px 3px 3px #0b160b;
+    font-weight: 500;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 800px) {
+    .keyboard__button {
+        font-size: 14px;
+    }
+}
+
+.keyboard__button:hover {
+    background-image: linear-gradient(270deg, #312323 0%, #332a2a 100%);
+}
+
+.keyboard__button:active {
+    background-image: linear-gradient(270deg, #312323 0%, #332a2a 100%);
+    box-shadow: 1px 1px 0 0 #0b160b inset, 0 -0.5px 0.5px 0 #0b160b inset;
+}
+
+.keyboard__button_active {
+    background-image: linear-gradient(270deg, #312323 0%, #332a2a 100%);
+    box-shadow: 1px 1px 0 0 #0b160b inset, 0 -0.5px 0.5px 0 #0b160b inset;
+}
+
+.keyboard__double {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
