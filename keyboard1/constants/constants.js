@@ -11,7 +11,7 @@ const languages = {
     en: "en",
 };
 
-const keyCodes = [
+const keysMas = [
     [
         { code: "Escape", lang: false, textContent: ["Esc"] },
         { code: "F1", lang: false, textContent: ["F1"] },
@@ -400,10 +400,12 @@ const keyCodes = [
         { code: "AltRight", lang: false, textContent: ["Alt"] },
         { code: "ControlRight", lang: false, textContent: ["Ctrl"] },
         { code: "ArrowLeft", lang: false, textContent: ["←"] },
-        { code: "ArrowUp", lang: false, textContent: ["↑"] },
-        { code: "ArrowDown", lang: false, textContent: ["↓"] },
+        [ 
+            { code: "ArrowUp", lang: false, textContent: ["↑"] },
+            { code: "ArrowDown", lang: false, textContent: ["↓"] } 
+        ],
         { code: "ArrowRight", lang: false, textContent: ["→"] },
     ],
 ];
 
-export { keyCodes };
+export { keysMas };
