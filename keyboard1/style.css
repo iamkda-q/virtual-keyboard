@@ -19,10 +19,10 @@
 }
 
 .text__textarea {
-    max-width: 1200px;
-    width: calc(10000vw/128);
-    height: 400px;
-    font-size: 40px;
+    max-width: 960px;
+    width: calc(9600vw/128);
+    height: 320px;
+    font-size: 32px;
     padding: 10px;
 }
 
@@ -40,10 +40,10 @@
 }
 
 .keyboard {
-    max-width: 1200px;
-    width: calc(10000vw/128);
-    height: calc(5000%/128);
-    padding: 10px;
+    max-width: 960px;
+    width: calc(9600%/128);
+    height: calc(4800%/128);
+    padding: 8px;
     border-radius: 20px;
     box-shadow: 0 3px 3px #3f0921;
     background: linear-gradient(
@@ -60,16 +60,16 @@
     display: grid;
     grid-template-columns: 1;
     grid-template-rows: 0.6fr repeat(5, 1fr);
-    row-gap: 8px;
+    row-gap: 7px;
 }
 
 .keyboard__line {
     width: 100%;
-    height: calc(20%-40px);
+    height: calc(20%-32px);
     display: grid;
     grid-template-columns: repeat(15, 1fr);
     grid-template-rows: 1;
-    column-gap: 10px;
+    column-gap: 8px;
 
 }
 
@@ -108,7 +108,7 @@
     box-shadow: 3px 3px 3px #0b160b;
     font-weight: 500;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-    font-size: 20px;
+    font-size: 14px;
 }
 
 @media screen and (max-width: 800px) {
