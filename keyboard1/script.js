@@ -6,8 +6,8 @@ if (!localStorage.getItem("language")) {
     localStorage.setItem("language", "en");
 }
 let langG = localStorage.getItem("language");
-localStorage.setItem("caps", JSON.stringify(false)); // начало работы в нижнем регистре
-localStorage.setItem("shiftRepeat", JSON.stringify(false)); // начало работы в нижнем регистре
+localStorage.setItem("caps", JSON.stringify(false));
+localStorage.setItem("shiftRepeat", JSON.stringify(false));
 
 const page = document.querySelector("body");
 page.classList.add("page");
@@ -42,7 +42,6 @@ const keyboardPlate = document.createElement("div");
 keyboardPlate.classList.add("keyboard__plate");
 keyboard.append(keyboardPlate);
 
-/* Отрисовка клавиатуры */
 keysMas.forEach((keysMasLine, keysMasLineIndex) => {
     const keyboardLine = document.createElement("div");
     keyboardLine.classList.add(
@@ -314,7 +313,6 @@ keyboard.addEventListener("mousedown", evt => {
     }
 });
 
-/* Работа с кнопками физической клавиатуры */
 document.addEventListener("keydown", evt => {
     evt.preventDefault();
     textArea.focus();
@@ -340,3 +338,16 @@ document.addEventListener("keyup", evt => {
         currentButton.style.color = "";
     }
 });
+
+// eslint-disable-next-line no-console
+console.log(
+    `
+    Клавиатура создана в операционной системе Windows.
+    Комбинация для переключения языка : любые ctrl + alt.
+    Если зажать мышкой кнопку виртуальной клавиатуры Shift, и, не отпуская кнопку мыши, перетащить курсор на любую другую кнопку, 
+    а потом отпустить кнопку мыши, то кнопка Shift "зажмется" и включится режим введения заглавных букв и доп. символов.
+    Если зажать мышкой кнопку виртуальной клавиатуры Alt, и, не отпуская кнопку мыши, перетащить курсор на кнопку Ctrl,
+    а потом отпустить кнопку мыши, переключится язык.
+    Кнопка Ctrl работает аналогично.
+    `,
+);
