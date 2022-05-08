@@ -1,16 +1,3 @@
-const enLine = "qwertyuiop[]asdfghjkl;'zxcvbnm,./".split("");
-const ruLine = "йцукенгшщзхъфывапролджэячсмитьбю.".split("");
-const [enKeys, ruKeys] = [{}, {}];
-enLine.forEach((it, ind) => {
-    enKeys[it] = it;
-    ruKeys[it] = ruLine[ind];
-});
-
-const languages = {
-    ru: "ru",
-    en: "en",
-};
-
 const keysMas = [
     [
         { code: "Escape", lang: false, textContent: ["Esc"] },
@@ -45,7 +32,7 @@ const keysMas = [
             lang: true,
             symb: true,
             textContent: {
-                ru: ['"', "2"],
+                ru: ["\"", "2"],
                 en: ["@", "2"],
             },
         },
@@ -67,7 +54,12 @@ const keysMas = [
                 en: ["$", "4"],
             },
         },
-        { code: "Digit5", lang: false, symb: true, textContent: ["%", "5"] },
+        {
+            code: "Digit5",
+            lang: false,
+            symb: true,
+            textContent: ["%", "5"],
+        },
         {
             code: "Digit6",
             lang: true,
@@ -86,11 +78,36 @@ const keysMas = [
                 en: ["&", "7"],
             },
         },
-        { code: "Digit8", symb: true, lang: false, textContent: ["*", "8"] },
-        { code: "Digit9", symb: true, lang: false, textContent: ["(", "9"] },
-        { code: "Digit0", symb: true, lang: false, textContent: [")", "0"] },
-        { code: "Minus", symb: true, lang: false, textContent: ["_", "-"] },
-        { code: "Equal", symb: true, lang: false, textContent: ["+", "="] },
+        {
+            code: "Digit8",
+            symb: true,
+            lang: false,
+            textContent: ["*", "8"],
+        },
+        {
+            code: "Digit9",
+            symb: true,
+            lang: false,
+            textContent: ["(", "9"],
+        },
+        {
+            code: "Digit0",
+            symb: true,
+            lang: false,
+            textContent: [")", "0"],
+        },
+        {
+            code: "Minus",
+            symb: true,
+            lang: false,
+            textContent: ["_", "-"],
+        },
+        {
+            code: "Equal",
+            symb: true,
+            lang: false,
+            textContent: ["+", "="],
+        },
         { code: "Backspace", lang: false, textContent: ["←"] },
     ],
     [
@@ -292,7 +309,7 @@ const keysMas = [
             symb: true,
             textContent: {
                 ru: ["э"],
-                en: ['"', "'"],
+                en: ["\"", "'"],
             },
         },
         { code: "Enter", lang: false, textContent: ["Enter"] },
@@ -400,12 +417,12 @@ const keysMas = [
         { code: "AltRight", lang: false, textContent: ["Alt"] },
         { code: "ControlRight", lang: false, textContent: ["Ctrl"] },
         { code: "ArrowLeft", lang: false, textContent: ["←"] },
-        [ 
+        [
             { code: "ArrowUp", lang: false, textContent: ["↑"] },
-            { code: "ArrowDown", lang: false, textContent: ["↓"] } 
+            { code: "ArrowDown", lang: false, textContent: ["↓"] },
         ],
         { code: "ArrowRight", lang: false, textContent: ["→"] },
     ],
 ];
 
-export { keysMas };
+export default keysMas;

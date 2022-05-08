@@ -19,7 +19,8 @@
 }
 
 .text__textarea {
-    width: 1200px;
+    max-width: 1200px;
+    width: calc(10000vw/128);
     height: 400px;
     font-size: 40px;
     padding: 10px;
@@ -29,9 +30,19 @@
     outline: none;
 }
 
+.text__message {
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto;
+}
+
 .keyboard {
-    width: 1200px;
-    height: 500px;
+    max-width: 1200px;
+    width: calc(10000vw/128);
+    height: calc(5000%/128);
     padding: 10px;
     border-radius: 20px;
     box-shadow: 0 3px 3px #3f0921;
@@ -98,6 +109,12 @@
     font-weight: 500;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     font-size: 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .keyboard__button {
+        font-size: 14px;
+    }
 }
 
 .keyboard__button:hover {

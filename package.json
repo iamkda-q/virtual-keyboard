@@ -1,0 +1,25 @@
+{
+  "name": "keyboard",
+  "version": "1.0.0",
+  "description": "virtual keyboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamkda-q/virtual-keyboard.git"
+  },
+  "author": "Konnov Dmirtiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamkda-q/virtual-keyboard/issues"
+  },
+  "homepage": "https://github.com/iamkda-q/virtual-keyboard#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
