@@ -34,6 +34,11 @@ textInfo.classList.add("text__info");
 textInfo.textContent = "Комбинация для переключения языка : любые ctrl + alt. Более подробная информация в консоли";
 textMessage.append(textInfo);
 
+const pullReqRef = document.createElement("a");
+pullReqRef.href = "https://github.com/iamkda-q/virtual-keyboard/pull/1";
+pullReqRef.textContent = "Сори, засабмитил не ту ссылку, вот Pull request";
+textMessage.append(pullReqRef);
+
 const keyboard = document.createElement("section");
 keyboard.classList.add("keyboard");
 page.append(keyboard);
