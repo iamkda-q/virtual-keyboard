@@ -34,12 +34,6 @@ textInfo.classList.add("text__info");
 textInfo.textContent = "Комбинация для переключения языка : любые ctrl + alt. Более подробная информация в консоли";
 textMessage.append(textInfo);
 
-/*
-const pullReqRef = document.createElement("a");
-pullReqRef.href = "https://github.com/iamkda-q/virtual-keyboard/pull/1";
-pullReqRef.textContent = "Сори, засабмитил не ту ссылку, вот Pull request";
-textMessage.append(pullReqRef); */
-
 const keyboard = document.createElement("section");
 keyboard.classList.add("keyboard");
 page.append(keyboard);
@@ -352,6 +346,7 @@ console.log(
     Комбинация для переключения языка : любые ctrl + alt.
     Если зажать мышкой кнопку виртуальной клавиатуры Shift, и, не отпуская кнопку мыши, перетащить курсор на любую другую кнопку, 
     а потом отпустить кнопку мыши, то кнопка Shift "зажмется" и включится режим введения заглавных букв и доп. символов.
+    Для выхода из этого режима необходимо щёлкнуть по виртуальной или реальной клавише Shift.
     Если зажать мышкой кнопку виртуальной клавиатуры Alt, и, не отпуская кнопку мыши, перетащить курсор на кнопку Ctrl,
     а потом отпустить кнопку мыши, переключится язык.
     Кнопка Ctrl работает аналогично.
